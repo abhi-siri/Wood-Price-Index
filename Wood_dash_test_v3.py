@@ -14,7 +14,7 @@ if 'df' not in st.session_state:
 st.title("Weekly Wood Price Index - Paper Mills")
 
 # Tab layout for entry and categorized display
-tab1, tab2 = st.tabs(["MIS Wood Price Index", "Transport rates"])
+tab1, tab2 = st.tabs(["Weekly Wood Price Index", "Transport rates"])
 
 with tab1:
     # Input fields and form layout
