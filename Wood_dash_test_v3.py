@@ -254,5 +254,5 @@ with tab2:
         st.dataframe(wood_waste_data_display, use_container_width=True)
         st.markdown("#### Wood Chips")
         st.dataframe(wood_chips_data_display, use_container_width=True)
-     else:
+    else:
         st.warning("No data available. Please add rows in the Data Entry tab.")
