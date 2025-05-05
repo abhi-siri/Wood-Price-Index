@@ -93,14 +93,20 @@ with tab1:
                 state_district_map[selected_state]
             )
             if selected_districts:
-                selected_zone = st.selectbox(
+                selected_zone = st.multiselect(
                     "Select Zone for the Selected Districts:", 
                     ["Select Zone"] + zones
                 )
         
-        supplied_mill = st.selectbox(
+        supplied_mill = st.multiselect(
             "Select Supplied Mill:",
-            ["Select Supplied Mill"] + ["JK-CPM", "JK-SPM", "JKPM", "APL"]
+            ["Select Supplied Mill"] + ["JK-CPM", "JK-SPM", "JKPM", "APL",
+                                        "APL (Chpeta,Nraopeta,Muppavaram)",
+                                        "APL (Vinukonda,chimakurty)","BILT BLSH",
+                                        "S.S","West Cost","ITC","WCPM","ITC POLES",
+                                        "Hari Hara","Century","Green Panel","Greenpanel Zone 3",
+                                        "Prakasam" ,"Kandukuru","Greenpanel Zone 2","Sri Kalahasthi"
+                                        ,"Gudur","Greenpanel Zone 1","Green Panel","GPLY","Century (AP)"]
         )
 
     with col2:
