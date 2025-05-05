@@ -145,9 +145,9 @@ with tab1:
             # ].empty:
                 # st.warning("Duplicate row detected. This row already exists.")
             # else:
-                Append the new row to the DataFrame if it is not a duplicate
-                st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
-                st.success("Row added successfully!")
+            Append the new row to the DataFrame if it is not a duplicate
+            st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
+            st.success("Row added successfully!")
         else:
             st.warning("All fields are mandatory. Please fill in all required fields.")
     # Display DataFrame
