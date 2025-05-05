@@ -129,6 +129,7 @@ with tab1:
             supplier_rate > 0 and 
             sub_supplier_rate > 0 and 
             freight > 0
+        
         ):
             new_row = {
                 "Date": date, 
@@ -144,7 +145,23 @@ with tab1:
                 "Company Stock (in ASMT)": company_stock,
                 "No_of_Trucks(Average)":no_of_trucks
             }
-            st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
+            # Check if the new row already exists in the DataFrame
+            if not st.session_state.df[
+                (st.session_state.df["Date"] == new_row["Date"]) &
+                (st.session_state.df["Wood Species"] == new_row["Wood Species"]) &
+                (st.session_state.df["Wood Collection Location"] == new_row["Wood Collection Location"]) &
+                (st.session_state.df["SUPPLIER PO RATE"] == new_row["SUPPLIER PO RATE"]) &
+                (st.session_state.df["SUB SUPPLIER WB RATE"] == new_row["SUB SUPPLIER WB RATE"]) &
+                (st.session_state.df["Freight"] == new_row["Freight"]) &
+                (st.session_state.df["Balance"] == new_row["Balance"]) &
+                (st.session_state.df["Company Stock (in ASMT)"] == new_row["Company Stock (in ASMT)"]) &
+                (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])
+            ].empty:
+                st.warning("Duplicate row detected. This row already exists.")
+            else:
+                # Append the new row to the DataFrame if it is not a duplicate
+                st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
+                st.success("Row added successfully!")
         else:
             st.warning("All fields are mandatory. Please fill in all required fields.")
 
@@ -169,7 +186,7 @@ with tab1:
 
 with tab2:
     # Categorized Data Display
-    st.markdown("### Categorized Data: Subabul and Eucalyptus")
+    st.markdown("### Transport Rates")
 
     if not st.session_state.df.empty:
         # Filter data for Subabul and Eucalyptus
@@ -179,21 +196,98 @@ with tab2:
         eucalyptus_data = st.session_state.df[
             st.session_state.df["Wood Species"].isin(["With Bark Eucalyptus", "DEBARK EUCALYPTUS"])
         ]
-
+        casurina_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Casurina Wood"])
+        ]
+        acacia_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Acacia Wood Debarked"])
+        ]
+        gliricidia_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Gliricidia with Bark Wood"])
+        ]
+        melia_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Melia Dubia Wood With Bark"])
+        ]    
+        bamboo_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Bamboo"])
+        ]
+        veneer_waste_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Veneer Waste"])
+        ]
+        wood_rolls_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Wood Rolls"])
+        ]
+        wood_waste_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Wood Waste"])
+        ]
+        wood_chips_data = st.session_state.df[
+            st.session_state.df["Wood Species"].isin(["Wood Chips"])
+        ]
         # Combine "Wood Collection Location" and "Wood Collection Zone" into a single column
-        subabul_data["Wood Collection Location"] = subabul_data["Wood Collection Location"] + " - " + subabul_data["Wood Collection Zone"]
-        eucalyptus_data["Wood Collection Location"] = eucalyptus_data["Wood Collection Location"] + " - " + eucalyptus_data["Wood Collection Zone"]
+        subabul_data["Wood Collection Location"] = subabul_data["Wood Collection Location"].astype(str) + " - " + subabul_data["Wood Collection Zone"].astype(str)
+        eucalyptus_data["Wood Collection Location"] = eucalyptus_data["Wood Collection Location"].astype(str) + " - " + eucalyptus_data["Wood Collection Zone"].astype(str)
+        casurina_data["Wood Collection Location"] = casurina_data["Wood Collection Location"].astype(str) + " - " + casurina_data["Wood Collection Zone"].astype(str)
+        acacia_data["Wood Collection Location"] = acacia_data["Wood Collection Location"].astype(str) + " - " + acacia_data["Wood Collection Zone"].astype(str)
+        gliricidia_data["Wood Collection Location"] = gliricidia_data["Wood Collection Location"].astype(str) + " - " + gliricidia_data["Wood Collection Zone"].astype(str)
+        melia_data["Wood Collection Location"] = melia_data["Wood Collection Location"].astype(str) + " - " + melia_data["Wood Collection Zone"].astype(str)
+        bamboo_data["Wood Collection Location"] = bamboo_data["Wood Collection Location"].astype(str) + " - " + bamboo_data["Wood Collection Zone"].astype(str)
+        veneer_waste_data["Wood Collection Location"] = veneer_waste_data["Wood Collection Location"].astype(str) + " - " + veneer_waste_data["Wood Collection Zone"].astype(str)
+        wood_rolls_data["Wood Collection Location"] = wood_rolls_data["Wood Collection Location"].astype(str) + " - " + wood_rolls_data["Wood Collection Zone"].astype(str)
+        wood_waste_data["Wood Collection Location"] = wood_waste_data["Wood Collection Location"].astype(str) + " - " + wood_waste_data["Wood Collection Zone"].astype(str)
+        wood_chips_data["Wood Collection Location"] = wood_chips_data["Wood Collection Location"].astype(str) + " - " + wood_chips_data["Wood Collection Zone"].astype(str)
 
         # Select relevant columns to display
+        # Creating display columns for all datasets
         subabul_data_display = subabul_data[["Date", "Wood Collection Location", "Freight"]]
         eucalyptus_data_display = eucalyptus_data[["Date", "Wood Collection Location", "Freight"]]
+        acacia_data_display = acacia_data[["Date", "Wood Collection Location", "Freight"]]
+        casurina_data_display = casurina_data[["Date", "Wood Collection Location", "Freight"]]
+        gliricidia_data_display = gliricidia_data[["Date", "Wood Collection Location", "Freight"]]
+        melia_data_display = melia_data[["Date", "Wood Collection Location", "Freight"]]
+        bamboo_data_display = bamboo_data[["Date", "Wood Collection Location", "Freight"]]
+        veneer_waste_data_display = veneer_waste_data[["Date", "Wood Collection Location", "Freight"]]
+        wood_rolls_data_display = wood_rolls_data[["Date", "Wood Collection Location", "Freight"]]
+        wood_waste_data_display = wood_waste_data[["Date", "Wood Collection Location", "Freight"]]
+        wood_chips_data_display = wood_chips_data[["Date", "Wood Collection Location", "Freight"]]
 
-        # Display Subabul Data
-        st.markdown("#### Subabul Data")
+
+        # Display Wood Data
+        # Display the dataframes in the Streamlit app
+        st.markdown("#### Subabul")
         st.dataframe(subabul_data_display, use_container_width=True)
 
-        # Display Eucalyptus Data
-        st.markdown("#### Eucalyptus Data")
+        st.markdown("#### Eucalyptus")
         st.dataframe(eucalyptus_data_display, use_container_width=True)
+
+        st.markdown("#### Acacia")
+        st.dataframe(acacia_data_display, use_container_width=True)
+
+        st.markdown("#### Casurina")
+        st.dataframe(casurina_data_display, use_container_width=True)
+
+        st.markdown("#### Gliricidia")
+        st.dataframe(gliricidia_data_display, use_container_width=True)
+
+        st.markdown("#### Melia")
+        st.dataframe(melia_data_display, use_container_width=True)
+
+        st.markdown("#### Bamboo")
+        st.dataframe(bamboo_data_display, use_container_width=True)
+
+        st.markdown("#### Veneer Waste")
+        st.dataframe(veneer_waste_data_display, use_container_width=True)
+
+        st.markdown("#### Wood Rolls")
+        st.dataframe(wood_rolls_data_display, use_container_width=True)
+
+        st.markdown("#### Wood Waste")
+        st.dataframe(wood_waste_data_display, use_container_width=True)
+
+        st.markdown("#### Wood Chips")
+        st.dataframe(wood_chips_data_display, use_container_width=True)
+
+     
+
+
     else:
         st.warning("No data available. Please add rows in the Data Entry tab.")
