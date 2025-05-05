@@ -131,7 +131,7 @@ with tab1:
                 "Company Stock (in ASMT)": company_stock,
                 "No_of_Trucks(Average)":no_of_trucks
             }
-            Check if the new row already exists in the DataFrame
+            # Check if the new row already exists in the DataFrame
             if not st.session_state.df[
                 (st.session_state.df["Date"] == new_row["Date"]) &
                 (st.session_state.df["Wood Species"] == new_row["Wood Species"]) &
@@ -142,7 +142,7 @@ with tab1:
                 (st.session_state.df["Balance"] == new_row["Balance"]) &
                 (st.session_state.df["Company Stock (in ASMT)"] == new_row["Company Stock (in ASMT)"]) &
                 (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])
-            ].empty:
+                ].empty:
                 st.warning("Duplicate row detected. This row already exists.")
             else:
                 Append the new row to the DataFrame if it is not a duplicate
