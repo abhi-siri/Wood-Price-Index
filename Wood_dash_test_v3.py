@@ -6,9 +6,9 @@ from xlsxwriter import Workbook
 # Initialize session state for the main data
 if 'df' not in st.session_state:
     st.session_state.df = pd.DataFrame(columns=[
-        "Date", "Wood Species", "Wood Price Source", "Wood Collection Location", 
+        "Date", "Wood Species", "Wood Collection Location", 
         "Wood Collection Zone", "Supplied Mill", "SUPPLIER PO RATE", "SUB SUPPLIER WB RATE", 
-        "Freight", "Balance", "Company Stock (in ASMT)"
+        "Freight", "Balance", "Company Stock (in ASMT)","No_of_Trucks(Average)"
     ])
 
 # Title
@@ -29,14 +29,14 @@ with tab1:
         st.markdown("### Select Wood Species:")
         wood_species = st.selectbox(
             "Select Wood Species:",
-            ["Select Wood Species"] + ["DeBark Subabul", "With Bark Subabul", "With Bark Eucalyptus", "DEBARK EUCALYPTUS"]
+            ["Select Wood Species"] + ["Acacia Wood Debarked","Bamboo","Casurina Wood","DeBark Subabul", "Gliricidia with Bark Wood","Melia Dubia Wood With Bark","With Bark Subabul", "With Bark Eucalyptus", "Debark Eucalyptus","Veneer Waste","Wood Rolls","Wood Waste","Wood Chips"]
         )
         
         # Dropdown for Wood Price Source
-        wood_price_source = st.selectbox(
-            "Select Wood Price Source:",
-            ["Select Wood Price Source"] + ["CPM Unit", "SPM Unit", "JKPM Unit"]
-        )
+        # wood_price_source = st.selectbox(
+        #     "Select Wood Price Source:",
+        #     ["Select Wood Price Source"] + ["CPM Unit", "SPM Unit", "JKPM Unit"]
+        # )
         
         # State and District Selection
         zones = ["Zone 1", "Zone 2", "Zone 3"]
@@ -101,12 +101,8 @@ with tab1:
         supplied_mill = st.multiselect(
             "Select Supplied Mill:",
             ["Select Supplied Mill"] + ["JK-CPM", "JK-SPM", "JKPM", "APL",
-                                        "APL (Chpeta,Nraopeta,Muppavaram)",
-                                        "APL (Vinukonda,chimakurty)","BILT BLSH",
-                                        "S.S","West Cost","ITC","WCPM","ITC POLES",
-                                        "Hari Hara","Century","Green Panel","Greenpanel Zone 3",
-                                        "Prakasam" ,"Kandukuru","Greenpanel Zone 2","Sri Kalahasthi"
-                                        ,"Gudur","Greenpanel Zone 1","Green Panel","GPLY","Century (AP)"]
+                                        "BILT","TNPL","Seshasayee","West Coast","ITC","Merino", "Orient",
+                                        "HariHar","Green Panel","Century PLY","PLY/OTHERS"]
         )
 
     with col2:
@@ -117,13 +113,15 @@ with tab1:
         freight = st.number_input("Enter Freight:", value=0)
         balance = supplier_rate - freight
         company_stock = st.number_input("Enter Company Stock (in ASMT):", value=0)
+        no_of_trucks = st.number_input("Enter Average No. of Trucks:",value=0)
+ 
 
     # Add Row Button
     if st.button("Add Row"):
         if (
             date and 
             wood_species != "Select Wood Species" and 
-            wood_price_source != "Select Wood Price Source" and 
+            # wood_price_source != "Select Wood Price Source" and 
             selected_state != "Select State" and 
             selected_districts and 
             selected_zone and 
@@ -135,7 +133,7 @@ with tab1:
             new_row = {
                 "Date": date, 
                 "Wood Species": wood_species, 
-                "Wood Price Source": wood_price_source, 
+                # "Wood Price Source": wood_price_source, 
                 "Wood Collection Location": ", ".join(selected_districts), 
                 "Wood Collection Zone": selected_zone, 
                 "Supplied Mill": supplied_mill, 
@@ -144,6 +142,7 @@ with tab1:
                 "Freight": freight, 
                 "Balance": balance,
                 "Company Stock (in ASMT)": company_stock
+                "No_of_Trucks(Average)":no_of_trucks
             }
             st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
         else:
