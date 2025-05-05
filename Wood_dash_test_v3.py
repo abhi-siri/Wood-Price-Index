@@ -112,8 +112,8 @@ with tab1:
     with col2:
         # Supplier Data Input
         st.markdown("### Enter Supplier Data")
-        supplier_rate = st.number_input("Enter Supplier PO Rate:", value=0.0)
-        sub_supplier_rate = st.number_input("Enter Sub Supplier WB Rate:", value=0.0)
+        supplier_rate = st.number_input("Enter Supplier PO Rate:", value=0)
+        sub_supplier_rate = st.number_input("Enter Sub Supplier WB Rate:", value=0)
         freight = st.number_input("Enter Freight:", value=0.0)
         balance = supplier_rate - freight
         company_stock = st.number_input("Enter Company Stock (in ASMT):", value=0.0)
