@@ -141,7 +141,7 @@ with tab1:
                 "SUB SUPPLIER WB RATE": sub_supplier_rate,
                 "Freight": freight, 
                 "Balance": balance,
-                "Company Stock (in ASMT)": company_stock
+                "Company Stock (in ASMT)": company_stock,
                 "No_of_Trucks(Average)":no_of_trucks
             }
             st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
