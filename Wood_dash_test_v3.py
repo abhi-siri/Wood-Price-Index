@@ -114,9 +114,9 @@ with tab1:
         st.markdown("### Enter Supplier Data")
         supplier_rate = st.number_input("Enter Supplier PO Rate:", value=0)
         sub_supplier_rate = st.number_input("Enter Sub Supplier WB Rate:", value=0)
-        freight = st.number_input("Enter Freight:", value=0.0)
+        freight = st.number_input("Enter Freight:", value=0)
         balance = supplier_rate - freight
-        company_stock = st.number_input("Enter Company Stock (in ASMT):", value=0.0)
+        company_stock = st.number_input("Enter Company Stock (in ASMT):", value=0)
 
     # Add Row Button
     if st.button("Add Row"):
