@@ -141,11 +141,10 @@ with tab1:
                 (st.session_state.df["Freight"] == new_row["Freight"]) &
                 (st.session_state.df["Balance"] == new_row["Balance"]) &
                 (st.session_state.df["Company Stock (in ASMT)"] == new_row["Company Stock (in ASMT)"]) &
-                (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])
-                ].empty:
+                (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])].empty:
                 st.warning("Duplicate row detected. This row already exists.")
             else:
-                Append the new row to the DataFrame if it is not a duplicate
+                # Append the new row to the DataFrame if it is not a duplicate
                 st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
                 st.success("Row added successfully!")
         else:
