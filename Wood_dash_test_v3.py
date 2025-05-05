@@ -150,7 +150,7 @@ with tab1:
                 (st.session_state.df["Date"] == new_row["Date"]) &
                 (st.session_state.df["Wood Species"] == new_row["Wood Species"]) &
                 (st.session_state.df["Wood Collection Location"] == new_row["Wood Collection Location"]) &
-                (st.session_state.df['Wood Collection Zone'] == new_row["Wood Collection Zone"])&
+                # (st.session_state.df['Wood Collection Zone'] == new_row["Wood Collection Zone"])&
                 (st.session_state.df["SUPPLIER PO RATE"] == new_row["SUPPLIER PO RATE"]) &
                 (st.session_state.df["SUB SUPPLIER WB RATE"] == new_row["SUB SUPPLIER WB RATE"]) &
                 (st.session_state.df["Freight"] == new_row["Freight"]) &
