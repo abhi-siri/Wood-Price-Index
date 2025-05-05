@@ -132,23 +132,23 @@ with tab1:
                 "No_of_Trucks(Average)":no_of_trucks
             }
             # Check if all the values in the new row already exist in the DataFrame
-            if not st.session_state.df[
-                (st.session_state.df["Date"] == new_row["Date"]) &
-                (st.session_state.df["Wood Species"] == new_row["Wood Species"]) &
-                (st.session_state.df["Wood Collection Location"] == new_row["Wood Collection Location"]) &
-                (st.session_state.df["Wood Collection Zone"] == new_row["Wood Collection Zone"]) &
-                (st.session_state.df["SUPPLIER PO RATE"] == new_row["SUPPLIER PO RATE"]) &
-                (st.session_state.df["SUB SUPPLIER WB RATE"] == new_row["SUB SUPPLIER WB RATE"]) &
-                (st.session_state.df["Freight"] == new_row["Freight"]) &
-                (st.session_state.df["Balance"] == new_row["Balance"]) &
-                (st.session_state.df["Company Stock (in ASMT)"] == new_row["Company Stock (in ASMT)"]) &
-                (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])
-                ].empty:
+        if not st.session_state.df[
+            (st.session_state.df["Date"] == new_row["Date"]) &
+            (st.session_state.df["Wood Species"] == new_row["Wood Species"]) &
+            (st.session_state.df["Wood Collection Location"] == new_row["Wood Collection Location"]) &
+            (st.session_state.df["Wood Collection Zone"] == new_row["Wood Collection Zone"]) &
+            (st.session_state.df["SUPPLIER PO RATE"] == new_row["SUPPLIER PO RATE"]) &
+            (st.session_state.df["SUB SUPPLIER WB RATE"] == new_row["SUB SUPPLIER WB RATE"]) &
+            (st.session_state.df["Freight"] == new_row["Freight"]) &
+            (st.session_state.df["Balance"] == new_row["Balance"]) &
+            (st.session_state.df["Company Stock (in ASMT)"] == new_row["Company Stock (in ASMT)"]) &
+            (st.session_state.df["No_of_Trucks(Average)"] == new_row["No_of_Trucks(Average)"])
+        ].empty:
                 #     st.warning("Duplicate row detected. This row already exists.")
-            else:
+    else:
             # Append the new row to the DataFrame if it is not a duplicate
-                st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
-                st.success("Row added successfully!")
+        st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_row])], ignore_index=True)
+        st.success("Row added successfully!")
 
         else:
             st.warning("All fields are mandatory. Please fill in all required fields.")
