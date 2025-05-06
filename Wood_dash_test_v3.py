@@ -8,7 +8,7 @@ if 'df' not in st.session_state:
     st.session_state.df = pd.DataFrame(columns=[
         "Date", "Wood Species", "Wood Collection Location", 
         "Wood Collection Zone", "Supplied Mill", "SUPPLIER PO RATE", "SUB SUPPLIER WB RATE", 
-        "Freight", "Balance", "Company Stock (in ASMT)","No_of_Trucks(Average)"
+        "Freight","Other Expenses", "Balance", "Company Stock (in ASMT)","No_of_Trucks(Average)"
     ])
 # Title
 st.title("Weekly Wood Price Index - Paper Mills")
@@ -101,6 +101,7 @@ with tab1:
         sub_supplier_rate = st.number_input("Enter Sub Supplier WB Rate:", value=0)
         freight = st.number_input("Enter Freight:", value=0)
         balance = supplier_rate - freight
+        other_exp = supplier_rate - sub_supplier_rate
         company_stock = st.number_input("Enter Company Stock (in ASMT):", value=0)
         no_of_trucks = st.number_input("Enter Average No. of Trucks:",value=0)
     # Add Row Button
@@ -109,6 +110,8 @@ with tab1:
             st.warning("Please ensure supplier data should be valid")
         elif sub_supplier_rate>supplier_rate:
             st.warning("Sub Supplier WB Rate Must be less than or Equal to  Supplier PO Rate")
+        # elif supplier_rate!= sub_supplier_rate+other_exp:
+        #     st.warning("Supplier PO Price Mismatch")
         elif (
             date and 
             wood_species != "Select Wood Species" and 
@@ -133,6 +136,7 @@ with tab1:
                 "SUB SUPPLIER WB RATE": sub_supplier_rate,
                 "Freight": freight, 
                 "Balance": balance,
+                "Other Expenses":other_exp,
                 "Company Stock (in ASMT)": company_stock,
                 "No_of_Trucks(Average)":no_of_trucks
             }
