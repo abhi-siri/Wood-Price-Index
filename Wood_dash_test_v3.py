@@ -3,6 +3,7 @@ import pandas as pd
 from io import BytesIO
 from xlsxwriter import Workbook
 from datetime import datetime
+
 # Initialize session state for the main data
 if 'df' not in st.session_state:
     st.session_state.df = pd.DataFrame(columns=[
@@ -34,37 +35,38 @@ with tab1:
         # State and District Selection
         zones = ["Zone 1", "Zone 2", "Zone 3"]
         state_district_map = {
-            "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", 
+            "Maharashtra": sorted(["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", 
                     "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", 
                     "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", 
-                    "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
-    "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhoopalpally", 
+                    "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"]),
+    "Telangana": sorted(["Telangana","Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhoopalpally", 
                   "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Komaram Bheem", "Mahabubabad", "Mahabubnagar", 
                   "Mancherial", "Medak", "Medchal", "Nagarkurnool", "Nalgonda", "Nirmal", "Nizamabad", "Peddapalli", 
                   "Rajanna Sircilla", "Ranga Reddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", 
-                  "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"],
-    "Karnataka": ["Bagalkot", "Ballari", "Belagavi", "Bengaluru Rural", "Bengaluru Urban", "Bidar", "Chamarajanagar", 
+                  "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"]),
+    "Karnataka": sorted(["Bagalkot", "Ballari", "Belagavi", "Bengaluru Rural", "Bengaluru Urban", "Bidar", "Chamarajanagar", 
                   "Chikballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", 
                   "Hassan", "Haveri", "Kalaburagi", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru", "Raichur", "Ramanagara", 
-                  "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayapura", "Yadgir"],
-    "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Nellore", "Prakasam", 
-                       "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa", "Ongole"],
-    "Odisha"   :  ["Angul","Balangir","Bargarh","Deogarh","Dhenkanal","Jharsuguda","Kendujhar","Sambalpur","Subarnapur","Sundargarh","Balasore","Bhadrak","Cuttack","Jagatsinghpur","Jajpur","Kendrapada","Khordha","Mayurbhanj","Nayagarh	Puri","Boudh","Gajapati","Ganjam","Kalahandi","Kandhamal","Koraput","Malkangiri","Nabarangpur","Nuapada","Rayagada"],
-    "Tamil Nadu": ["Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", 
+                  "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayapura", "Yadgir"]),
+    "Andhra Pradesh": sorted(["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Nellore", "Prakasam", 
+                       "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa","Tirupati", "Ongole"]),
+    "Odisha"   :  sorted(["Angul","Balangir","Bargarh","Deogarh","Dhenkanal","Jharsuguda","Kendujhar","Sambalpur","Subarnapur",
+                          "Sundargarh","Balasore","Bhadrak","Cuttack","Jagatsinghpur","Jajpur","Kendrapada","Khordha","Mayurbhanj","Nayagarh	Puri","Boudh","Gajapati","Ganjam","Kalahandi","Kandhamal","Koraput","Malkangiri","Nabarangpur","Nuapada","Rayagada"]),
+    "Tamil Nadu": sorted(["Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", 
                    "Karur", "Madurai", "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", 
                    "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", 
-                   "Tiruvannamalai", "Vellore", "Viluppuram", "Virudhunagar"],
-    "Gujarat": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", 
+                   "Tiruvannamalai", "Vellore", "Viluppuram", "Virudhunagar"]),
+    "Gujarat": sorted(["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", 
                 "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", 
                 "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", 
-                "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"],
-    "Madhya Pradesh": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", 
+                "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"]),
+    "Madhya Pradesh":sorted(["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", 
                        "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", 
                        "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", 
                        "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", 
                        "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", 
-                       "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"],
-    "Uttar Pradesh": ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", 
+                       "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"]),
+    "Uttar Pradesh": sorted(["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", 
                       "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bijnor", "Budaun", 
                       "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", 
                       "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", 
@@ -73,7 +75,7 @@ with tab1:
                       "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", 
                       "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Prayagraj", "Raebareli", "Rampur", "Saharanpur", 
                       "Sambhal", "Sant Kabir Nagar", "Sant Ravidas Nagar", "Shahjahanpur", "Shamli", "Shrawasti", 
-                      "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"]
+                      "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"])
         }        
         selected_state = st.selectbox("Select State:", ["Select State"] + list(state_district_map.keys()))        
         selected_districts = []
@@ -152,7 +154,30 @@ with tab1:
             st.success(f"Last Row Updated at:{formatted_timestamp}")
     else:
         st.warning("All fields are mandatory. Please fill in all required fields.")
+
+        #     Delete Row Section
+    st.markdown(" Delete Selected Rows")
+    if "df" in st.session_state and not st.session_state.df.empty:
+        # Display DataFrame and allow selection of rows to delete
+        # st.dataframe(st.session_state.df)
+        rows_to_delete = st.multiselect(
+            "Select rows to delete:",
+            st.session_state.df.index,
+            format_func=lambda x: f"Row {x + 1}"
+        )
+        if st.button("Delete Selected Rows"):
+            if rows_to_delete:
+                # Drop selected rows and reset the index
+                st.session_state.df.drop(rows_to_delete, inplace=True)
+                st.session_state.df.reset_index(drop=True, inplace=True)
+                st.success("Selected rows deleted successfully!")
+            else:
+                st.warning("No rows selected for deletion.")
+    else:
+        st.warning("No data available to delete.")
+         
     # Display DataFrame
+
     st.dataframe(st.session_state.df, use_container_width=True)
     # Function to convert dataframe to Excel
     def convert_df_to_excel(df):
@@ -168,6 +193,7 @@ with tab1:
             file_name="wood_procurement_data.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
+
 with tab2:
     # Categorized Data Display
     st.markdown("### Transport Rates")
